@@ -18,10 +18,9 @@ class _AppShellState extends State<AppShell> {
   @override
   void initState() {
     super.initState();
-    // Initialize Hive and Provider data
-    Future.microtask(() => 
-      Provider.of<RequestProvider>(context, listen: false).init()
-    );
+    // Initialize Hive and Provider data — capture provider before async gap
+    final provider = Provider.of<RequestProvider>(context, listen: false);
+    Future.microtask(() => provider.init());
   }
 
   @override

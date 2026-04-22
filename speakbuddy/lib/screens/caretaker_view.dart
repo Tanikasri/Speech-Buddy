@@ -33,7 +33,6 @@ class CaretakerView extends StatelessWidget {
   }
 
   Widget _buildRequestCard(BuildContext context, RequestProvider provider, Request r) {
-    final bool isHelp = r.type == 'HELP';
     final Color statusColor = _getStatusColor(r);
     final String timeStr = DateFormat('jm').format(r.createdAt);
 

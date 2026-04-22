@@ -9,16 +9,19 @@ class UserView extends StatelessWidget {
   static final AudioPlayer _player = AudioPlayer();
 
   Future<void> _playAndRequest(BuildContext context, String title, String audioFile) async {
-    // 1. Play Audio
+    // 1. Capture context-dependent objects before async gap
+    final provider = Provider.of<RequestProvider>(context, listen: false);
+    final messenger = ScaffoldMessenger.of(context);
+
+    // 2. Play Audio
     await _player.stop();
     await _player.play(AssetSource(audioFile));
 
-    // 2. Add Request to Hive
-    final provider = Provider.of<RequestProvider>(context, listen: false);
+    // 3. Add Request to Hive
     await provider.addRequest(title.toUpperCase(), '101'); // Assuming Room 101 for demo
 
-    // 3. Show feedback
-    ScaffoldMessenger.of(context).showSnackBar(
+    // 4. Show feedback
+    messenger.showSnackBar(
       SnackBar(
         content: Text('$title Request Sent!'),
         backgroundColor: Colors.green,
